@@ -1,10 +1,26 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import {StrictMode} from 'react'
+import {createRoot} from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
+import Home from './pages/Home.tsx'
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import NoPage from "./pages/NoPage.tsx";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+export default function App() {
+    return (
+        <StrictMode>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/"
+                        // element={<Layout/>}
+                    >
+                        <Route index element={<Home/>}/>
+                        <Route path="*" element={<NoPage/>}/>
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </StrictMode>
+    );
+}
+
+const root = createRoot(document.getElementById('root')!);
+root.render(<App/>);
