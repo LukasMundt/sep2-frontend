@@ -28,7 +28,7 @@ RUN npm ci
 RUN npm run build
 
 RUN chown -R cloudron:cloudron /app/code
-ADD dist/ /app/code/public
+RUN cp -r dist/ /app/code/public
 
 # link env file
 RUN ln -s /app/data/env /app/code/.env
