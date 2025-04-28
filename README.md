@@ -2,6 +2,8 @@
 
 ## Documentations
 - React: https://react.dev
+- Tailwindcss: https://tailwindcss.com/
+- shadcn/ui: https://ui.shadcn.com/
 
 ## Start developing
 1. Clone this project
