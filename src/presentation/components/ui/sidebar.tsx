@@ -4,7 +4,6 @@ import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeftIcon } from "lucide-react"
 
 import { useIsMobile } from "@/presentation/hooks/use-mobile"
-import { cn } from "@/presentation/lib/utils"
 import { Button } from "@/presentation/components/ui/button"
 import { Input } from "@/presentation/components/ui/input"
 import { Separator } from "@/presentation/components/ui/separator"
@@ -22,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/presentation/components/ui/tooltip"
+import {cn} from "@/presentation/lib/utils.ts";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
