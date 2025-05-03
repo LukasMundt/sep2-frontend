@@ -39,8 +39,8 @@ export default function Home() {
                         <Card
                             className="absolute -top-[13px] -left-[13px] -right-[13px] p-[13px] hidden group-hover/item:block z-40 shadow-2xl">
                             <img src={game.image} alt={`Image for the game${game.name}`}/>
-                            <div className="flex gap-[5px] mt-[13px] items-center">
-                                {game.name}
+                            <div className="flex gap-[5px] mt-[8px] items-center group/game-name">
+                                <span className="text-lg group-hover/game-name:underline underline-offset-[3px]">{game.name}</span>
                                 <MoveUpRight className="size-[13px]"/>
                             </div>
                         </Card>
