@@ -5,6 +5,7 @@ import Home from './pages/Home.tsx'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NoPage from "./pages/NoPage.tsx";
 import Game from "@/presentation/pages/Game.tsx";
+import Game from "@/presentation/pages/game/Game.tsx";
 
 export default function App() {
     return (
