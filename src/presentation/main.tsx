@@ -1,7 +1,7 @@
 import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import './index.css'
-import Home from './pages/Home.tsx'
+import Home from './pages/home/Home.tsx'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NoPage from "./pages/no-page/NoPage.tsx";
 import Game from "@/presentation/pages/game/Game.tsx";
