@@ -12,6 +12,7 @@ RUN sed -e 's,^ErrorLog.*,ErrorLog "|/bin/cat",' -i /etc/apache2/apache2.conf
 COPY apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 
 RUN a2disconf other-vhosts-access-log
+RUN a2enmod rewrite
 COPY apache/app.conf /etc/apache2/sites-enabled/app.conf
 RUN echo "Listen 80" > /etc/apache2/ports.conf
 
