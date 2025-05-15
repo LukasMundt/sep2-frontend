@@ -7,16 +7,6 @@ ServerName %{HTTP_HOST}
     CustomLog "|/bin/cat" proxy
     ErrorLog "|/bin/cat"
 
-    ProxyPreserveHost On
-    ProxyRequests Off
-    SSLProxyEngine On
-
-    RequestHeader unset Accept-Encoding
-
-    # Weiterleitung der /api/ Anfragen an Backend
-    ProxyPass        /api/ ${BACKEND_URL}/
-    ProxyPassReverse /api/ ${BACKEND_URL}/
-
     <Directory /app/code/public>
         Options +FollowSymLinks
         AllowOverride None
@@ -25,15 +15,12 @@ ServerName %{HTTP_HOST}
         RewriteEngine On
         RewriteBase /
 
-        # /api/ von Rewrite ausschließen
-        RewriteCond %{REQUEST_URI} ^/api/ [NC]
-        RewriteRule ^ - [L]
-
+        # SPA: alles andere geht an index.html
         RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^ index.html [L]
     </Directory>
 
-    # Do not remove this include. It's required for your app to see the Real IP
+    # Real-IP Support (nur relevant mit Reverse Proxies wie nginx, traefik, etc.)
     Include "/app/code/apache/rpaf.conf"
 </VirtualHost>

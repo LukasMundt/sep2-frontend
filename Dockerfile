@@ -23,14 +23,15 @@ RUN echo "Listen 80" > /etc/apache2/ports.conf
 RUN chmod +x /app/code/start.sh
 RUN chown -R cloudron:cloudron /app/code
 
+# link env file
+RUN ln -s /app/data/env /app/code/.env \
+    && cp /app/code/.env.prod-cloudron /app/data/env
+
 # install packages and build
 RUN npm ci
 RUN npm run build
 
 RUN chown -R cloudron:cloudron /app/code
 RUN cp -r dist/* /app/code/public
-
-# link env file
-RUN ln -s /app/data/env /app/code/.env
 
 CMD [ "/app/code/start.sh" ]
