@@ -7,7 +7,7 @@ import {ErrorModel} from "@/data-domain/clients/error.model.ts";
 export default class GetLeaderboardGameCategoryClient {
     async fetch (gameSlug: string, category: Category) : Promise<GetLeaderboardGameCategoryResponse|ErrorModel> {
         try {
-            const response = await fetch(`/api/leaderboard/${gameSlug}/${category}`,
+            const response = await fetch(`https://vertikalerprototyp.backend.dev.lukas-mundt.de/leaderboard/${gameSlug}/${category}`,
                 {
                     method: "GET",
                     headers: {
