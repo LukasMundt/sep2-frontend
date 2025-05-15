@@ -1,11 +1,9 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/presentation/components/ui/table.tsx";
-import {Leaderboard, Runtime} from "@/data-domain";
+import {components} from "@/data-domain/schema";
 
-type Runs = NonNullable<Leaderboard["runs"]>
+export default function LeaderboardTable({runs}: { runs: components["schemas"]["RunDto"][] }) {
 
-export default function LeaderboardTable({runs}: { runs: Runs }) {
-
-    function runtimeToString(runtime: Runtime): string {
+    function runtimeToString(runtime: components["schemas"]["Runtime"]): string {
         let string = "";
         if (runtime.hours > 0) {
             string += runtime.hours + ":";
@@ -34,7 +32,7 @@ export default function LeaderboardTable({runs}: { runs: Runs }) {
                         <TableCell className="font-medium">{index + 1}</TableCell>
                         <TableCell>{run.speedrunner}</TableCell>
                         <TableCell>{runtimeToString(run.runtime)}</TableCell>
-                        <TableCell>{run.date.toLocaleDateString()}</TableCell>
+                        <TableCell>{new Date(run.date).toLocaleDateString()}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

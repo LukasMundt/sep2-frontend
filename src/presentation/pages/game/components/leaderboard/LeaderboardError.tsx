@@ -1,12 +1,13 @@
 import {Alert, AlertDescription, AlertTitle} from "@/presentation/components/ui/alert.tsx";
+import {ReactNode} from "react";
 
 export default function LeaderboardError(
-    {category}: { category?: string }) {
+    {message, title}: { message: string|ReactNode, title: string|ReactNode}) {
     return (
         <Alert>
-            <AlertTitle>Fehler beim Laden</AlertTitle>
+            <AlertTitle>{title}</AlertTitle>
             <AlertDescription>
-                <p>Bei laden des Leaderboards für die Kategorie <b>{category??"?"}</b> ist leider ein Fehler aufgetreten.</p>
+                {message}
             </AlertDescription>
         </Alert>
     )
