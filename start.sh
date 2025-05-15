@@ -12,6 +12,9 @@ if [[ ! -f /app/data/.env-file-copied ]]; then
     touch /app/data/.env-file-copied
 fi
 
+# Setze Port auf 80
+export PORT=80
+
 # Starte Express-Server
 echo "Starting Express server"
 exec node /app/code/server.cjs

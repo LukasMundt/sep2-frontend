@@ -3,7 +3,7 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3005;
+const PORT = process.env.PORT || 80;
 
 // MIME-Type-Konfiguration für verschiedene Dateitypen
 app.use((req, res, next) => {
