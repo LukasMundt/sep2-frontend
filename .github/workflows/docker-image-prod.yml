@@ -1,28 +1,35 @@
-name: Docker Image CI
+name: Docker Image CI Production
 
 on:
   release:
     types: ["published"]
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag.outputs.TAG }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PERSONAL_ACCESS_TOKEN }}
+
       - name: Generate Docker tag
         id: tag
-        run: echo "TAG=${{ vars.DOCKER_HUB_USERNAME }}/se2p-frontend:$(date +%s)" >> $GITHUB_ENV
+        run: |
+          TAG="${{ vars.DOCKER_HUB_USERNAME }}/se2p-frontend:$(date +%s)"
+          echo "TAG=${TAG}" >> $GITHUB_ENV
+          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
 
-      # Build and push Docker image
-      - name: Build and push
+      - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
           push: true
@@ -30,11 +37,17 @@ jobs:
           build-args: |
             BUILD_CLOUDRON_APP_DOMAIN=${{ vars.CLOUDRON_APP_DOMAIN }}
             BUILD_UMAMI_WEBSITE_ID=${{ vars.UMAMI_WEBSITE_ID }}
-      - name: Deploy on Cloudron
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Deploy to Cloudron
         uses: rossmaclean/cloudron-deploy-action@v0.0.26
-        with: 
+        with:
           app-domain: ${{ vars.CLOUDRON_APP_DOMAIN }}
-          image: ${{ env.TAG }}
+          image: ${{ needs.build.outputs.image_tag }}
           cloudron-server: ${{ vars.CLOUDRON_SERVER }}
           cloudron-token: ${{ secrets.CLOUDRON_API_TOKEN }}
           install-if-missing: "true"
