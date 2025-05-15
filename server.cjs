@@ -32,12 +32,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Statische Dateien aus dem dist Verzeichnis
-app.use(express.static(path.join(__dirname, 'dist')));
+// Statische Dateien aus dem public Verzeichnis
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Alle anderen Routen zur index.html weiterleiten (für SPA)
 app.get('/*splat', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
