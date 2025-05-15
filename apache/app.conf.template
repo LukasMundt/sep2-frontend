@@ -13,6 +13,7 @@ ServerName %{HTTP_HOST}
 
     RequestHeader unset Accept-Encoding
 
+    # Weiterleitung der /api/ Anfragen an Backend
     ProxyPass        /api/ ${BACKEND_URL}/
     ProxyPassReverse /api/ ${BACKEND_URL}/
 
@@ -21,12 +22,13 @@ ServerName %{HTTP_HOST}
         AllowOverride None
         Require all granted
 
+        RewriteEngine On
+        RewriteBase /
+
         # /api/ von Rewrite ausschließen
         RewriteCond %{REQUEST_URI} ^/api/ [NC]
         RewriteRule .* - [L]
 
-        RewriteEngine On
-        RewriteBase /
         RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
         RewriteRule ^ index.html [L]
