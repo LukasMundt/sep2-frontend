@@ -1,9 +1,25 @@
 const express = require('express');
 const path = require('path');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 80;
+
+// Proxy für /api Routen
+if (!process.env.BACKEND_URL) {
+    console.error('BACKEND_URL ist nicht in der .env definiert!');
+    process.exit(1);
+}
+
+app.use('/api', createProxyMiddleware({
+    target: process.env.BACKEND_URL,
+    changeOrigin: true,
+    pathRewrite: {
+        '^/api': '' // Entfernt /api vom Pfad
+    },
+    logLevel: 'debug'
+}));
 
 // MIME-Type-Konfiguration für verschiedene Dateitypen
 app.use((req, res, next) => {
@@ -42,4 +58,5 @@ app.get('/*splat', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server läuft auf Port ${PORT}`);
+    console.log(`Proxy für /api → ${process.env.BACKEND_URL}`);
 }); 
