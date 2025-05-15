@@ -92,3 +92,11 @@ export function RuntimeToJSONTyped(value?: Runtime | null, ignoreDiscriminator: 
     };
 }
 
+export function RuntimeToMilliseconds(runtime: Runtime): number {
+    const hours = runtime.hours * 60 * 60 * 1000;
+    const minutes = runtime.minutes * 60 * 1000;
+    const seconds = runtime.seconds * 1000;
+    const milliseconds = runtime.milliseconds;
+
+    return hours + minutes + seconds + milliseconds;
+}

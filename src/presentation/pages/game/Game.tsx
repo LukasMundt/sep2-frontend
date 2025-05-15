@@ -7,7 +7,7 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/presentation/components/ui/select.tsx";
-import {Category, instanceOfLeaderboard, Leaderboard} from "@/data-domain/models";
+import {Category, instanceOfLeaderboard, Leaderboard, RuntimeToMilliseconds} from "@/data-domain/models";
 import {useEffect, useState} from "react";
 import {ErrorModel} from "@/data-domain/clients/error.model.ts";
 import GetLeaderboardFromGameAndCategory from "@/business-rules/get-leaderboard-from-game-and-category.ts";
@@ -43,12 +43,12 @@ export default function Game() {
         setError(null);
     }, [category]);
 
-    console.log(leaderboard, category, error, loading);
-
     async function loadLeaderboards(): Promise<void> {
         const result = await GetLeaderboardFromGameAndCategory(params.gameSlug ? capitalize(params.gameSlug) : params.gameSlug, category);
         if (instanceOfLeaderboard(result)) {
-            setLeaderboard(result)
+            let sortedRuns = result;
+            sortedRuns.runs?.sort((a, b) => RuntimeToMilliseconds(a.runtime) - RuntimeToMilliseconds(b.runtime));
+            setLeaderboard(sortedRuns)
             setError(null);
         } else {
             setError(result);
