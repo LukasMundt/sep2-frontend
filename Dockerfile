@@ -12,7 +12,11 @@ COPY apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 RUN a2disconf other-vhosts-access-log
 RUN a2enmod rewrite proxy proxy_http headers ssl
 
-# KEINE statische app.conf mehr nach /etc kopieren!
+# Erstelle Placeholder für Apache-Konfiguration und setze symbolischen Link
+RUN mkdir -p /run/apache \
+    && touch /run/apache/app.conf \
+    && ln -s /run/apache/app.conf /etc/apache2/sites-enabled/000-app.conf
+
 
 RUN echo "Listen 80" > /etc/apache2/ports.conf
 

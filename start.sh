@@ -40,4 +40,4 @@ envsubst '${BACKEND_URL}' < /app/code/apache/app.conf.template > /run/apache/app
 echo "Starting Apache with dynamic config"
 APACHE_CONFDIR="" source /etc/apache2/envvars
 rm -f "${APACHE_PID_FILE}"
-exec /usr/sbin/apache2 -f /run/apache/app.conf -DFOREGROUND
+exec /usr/sbin/apache2 -DFOREGROUND

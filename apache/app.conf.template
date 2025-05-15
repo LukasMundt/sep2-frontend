@@ -28,5 +28,6 @@ ServerName %{HTTP_HOST}
         RewriteRule ^ index.html [L]
     </Directory>
 
+    # Do not remove this include. It's required for your app to see the Real IP
     Include "/app/code/apache/rpaf.conf"
 </VirtualHost>
