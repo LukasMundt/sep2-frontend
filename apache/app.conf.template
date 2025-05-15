@@ -27,7 +27,7 @@ ServerName %{HTTP_HOST}
 
         # /api/ von Rewrite ausschließen
         RewriteCond %{REQUEST_URI} ^/api/ [NC]
-        RewriteRule .* - [L]
+        RewriteRule ^ - [L]
 
         RewriteCond %{REQUEST_FILENAME} !-f
         RewriteCond %{REQUEST_FILENAME} !-d
