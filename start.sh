@@ -12,12 +12,6 @@ if [[ ! -f /app/data/.env-file-copied ]]; then
     touch /app/data/.env-file-copied
 fi
 
-# Apache Konfiguration zur Laufzeit generieren
-mkdir -p /run/apache
-cp /app/code/apache/app.conf.template /run/apache/app.conf
-
-# Apache starten mit benutzerdefinierter Config
-echo "Starting Apache with dynamic config"
-APACHE_CONFDIR="" source /etc/apache2/envvars
-rm -f "${APACHE_PID_FILE}"
-exec /usr/sbin/apache2 -DFOREGROUND
+# Starte Express-Server
+echo "Starting Express server"
+exec node /app/code/server.cjs
