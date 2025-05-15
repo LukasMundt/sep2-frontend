@@ -13,7 +13,7 @@ COPY apache/mpm_prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
 
 RUN a2disconf other-vhosts-access-log
 RUN a2enmod rewrite
-COPY apache/app.conf /etc/apache2/sites-enabled/app.conf
+COPY apache/app.conf.template /app/code/apache/app.conf.template
 RUN echo "Listen 80" > /etc/apache2/ports.conf
 
 # Ensure the start.sh script has execute permissions
