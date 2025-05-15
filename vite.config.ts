@@ -17,10 +17,9 @@ export default defineConfig(({ mode }) => {
     server: {
       proxy: {
         // This is for local development
-        '/api': {
+        '/rest/api': {
           target: env.VITE_BACKEND_URL,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },

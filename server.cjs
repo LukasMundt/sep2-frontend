@@ -12,12 +12,9 @@ if (!process.env.BACKEND_URL) {
     process.exit(1);
 }
 
-app.use('/api', createProxyMiddleware({
+app.use('/rest/api', createProxyMiddleware({
     target: process.env.BACKEND_URL,
     changeOrigin: true,
-    pathRewrite: {
-        '^/api': '' // Entfernt /api vom Pfad
-    },
     logLevel: 'debug'
 }));
 
