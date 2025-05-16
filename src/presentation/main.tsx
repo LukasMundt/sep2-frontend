@@ -4,6 +4,7 @@ import './index.css'
 import Home from './pages/Home.tsx'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import NoPage from "./pages/NoPage.tsx";
+import RootLayout from "@/presentation/pages/RootLayout.tsx";
 
 export default function App() {
     return (
@@ -11,7 +12,7 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/"
-                        // element={<Layout/>}
+                        element={<RootLayout/>}
                     >
                         <Route index element={<Home/>}/>
                         <Route path="*" element={<NoPage/>}/>
