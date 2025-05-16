@@ -12,7 +12,7 @@ if (!process.env.BACKEND_URL) {
     process.exit(1);
 }
 
-app.use('/rest/api', createProxyMiddleware({
+app.use('/rest', createProxyMiddleware({
     target: process.env.BACKEND_URL,
     changeOrigin: true,
     logLevel: 'debug'
@@ -55,5 +55,5 @@ app.get('/*splat', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server läuft auf Port ${PORT}`);
-    console.log(`Proxy für /api → ${process.env.BACKEND_URL}`);
+    console.log(`Proxy für /rest/api → ${process.env.BACKEND_URL}`);
 }); 
