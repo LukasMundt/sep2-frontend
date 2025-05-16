@@ -48,6 +48,8 @@ jobs:
             BUILD_CLOUDRON_APP_DOMAIN=${{ env.SUBDOMAIN }}
             BUILD_UMAMI_WEBSITE_ID=${{ vars.UMAMI_WEBSITE_ID_STAGING }}
           outputs: type=docker
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   deploy:
     needs: build

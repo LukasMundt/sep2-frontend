@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client'
 import './index.css'
 import Home from './pages/home/Home.tsx'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import RootLayout from "@/presentation/pages/RootLayout.tsx";
 import NoPage from "./pages/no-page/NoPage.tsx";
 import Game from "@/presentation/pages/game/Game.tsx";
 
@@ -12,7 +13,7 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/"
-                        // element={<Layout/>}
+                        element={<RootLayout/>}
                     >
                         <Route index element={<Home/>}/>
                         <Route path="/games/:gameSlug" element={<Game/>}/>
