@@ -15,7 +15,12 @@ if (!process.env.BACKEND_URL) {
 app.use('/rest', createProxyMiddleware({
     target: process.env.BACKEND_URL,
     changeOrigin: true,
-    logLevel: 'debug'
+    logLevel: 'debug',
+    pathRewrite: (path, req) => {
+        // path ist der Teil der URL NACH dem Mount-Point ('/rest')
+        // Wir fügen '/rest' wieder hinzu, um es an das Target zu senden
+        return '/rest' + path;
+    }
 }));
 
 // MIME-Type-Konfiguration für verschiedene Dateitypen
