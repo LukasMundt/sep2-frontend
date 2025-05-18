@@ -29,12 +29,14 @@ export default function CategorySelection({onSelection, gameSlug, category}: {
     async function loadCategories(): Promise<void> {
         const {data} = await GetCategoriesFromGame(gameSlug??"");
         setCategories(data);
-        onSelection(data?.[0]?.categoryId ?? "");
+        if(data?.[0]?.categoryId){
+            onSelection(data?.[0]?.categoryId);
+        }
         setLoading(false);
     }
 
     if (loading || categories == undefined) {
-        return <Skeleton/>;
+        return <Skeleton className="h-9 max-w-[233px] mx-auto mt-[34px]"/>;
     }
     return (
         <Select value={category}

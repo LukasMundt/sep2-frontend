@@ -42,7 +42,7 @@ export default function Leaderboard({category, gameSlug}: {
         return <LeaderboardError title="Kategorie auswählen" message={<p>Bitte wähle eine Kategorie aus.</p>}/>
     } else {
         return <LeaderboardError title="Fehler beim Laden"
-                                 message={<p>Bei laden des Leaderboards für die Kategorie <b>{category ?? "?"}</b> ist
+                                 message={<p>Beim Laden des Leaderboards für die Kategorie <b>{category ?? "?"}</b> ist
                                      leider ein Fehler aufgetreten.</p>}/>
     }
 }
