@@ -55,5 +55,5 @@ app.get('/*splat', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server läuft auf Port ${PORT}`);
-    console.log(`Proxy für /rest/api → ${process.env.BACKEND_URL}`);
+    console.log(`Proxy für /rest → ${process.env.BACKEND_URL}`);
 }); 
