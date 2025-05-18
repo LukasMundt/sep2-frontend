@@ -3,7 +3,7 @@ import type {paths} from "@/data-domain/schema";
 
 export default async function GetLeaderboardFromGameAndCategory(
     gameSlug: paths["/rest/api/games/{gameSlug}/{categoryId}/leaderboard"]["get"]["parameters"]["path"]["gameSlug"],
-    category: paths["/rest/api/games/{gameSlug}/{categoryId}/leaderboard"]["get"]["parameters"]["path"]["categoryId"] ,
+    category: paths["/rest/api/games/{gameSlug}/{categoryId}/leaderboard"]["get"]["parameters"]["path"]["categoryId"],
 ) {
     const client = createClient<paths>()
     const {data, error} = await client.GET(
@@ -19,6 +19,6 @@ export default async function GetLeaderboardFromGameAndCategory(
 
     return {
         data: data,
-        error: error
+        error: data == undefined ? true : error
     };
 }

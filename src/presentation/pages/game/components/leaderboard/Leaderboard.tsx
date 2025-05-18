@@ -1,9 +1,10 @@
-import {Loader} from "lucide-react";
 import {useEffect, useState} from "react";
 import {components} from "@/data-domain/schema";
 import GetLeaderboardFromGameAndCategory from "@/business-rules/get-leaderboard-from-game-and-category.ts";
 import LeaderboardError from "@/presentation/pages/game/components/leaderboard/LeaderboardError.tsx";
 import LeaderboardTable from "@/presentation/pages/game/components/leaderboard/LeaderboardTable.tsx";
+import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
+import {toast} from "sonner";
 
 export default function Leaderboard({category, gameSlug}: {
     category: components["schemas"]["Category"]["categoryId"] | undefined,
@@ -11,7 +12,7 @@ export default function Leaderboard({category, gameSlug}: {
 }) {
     const [loading, setLoading] = useState(false);
     const [leaderboard, setLeaderboard] = useState<components["schemas"]["RunDto"][] | undefined>(undefined);
-    const [error, setError] = useState<undefined>(undefined);
+    const [error, setError] = useState<undefined|boolean>(undefined);
 
     useEffect(() => {
         if (leaderboard == undefined && category != undefined && error == undefined && !loading) {
@@ -31,13 +32,15 @@ export default function Leaderboard({category, gameSlug}: {
         setLeaderboard(data);
         setError(error);
         setLoading(false);
+        if (error != undefined) {
+            toast.error("Es ist ein Fehler beim Laden des Leaderboards aufgetreten.")
+        }
     }
 
     if (!loading && leaderboard) {
         return <LeaderboardTable runs={leaderboard}/>
     } else if (loading) {
-        return <div className="w-full h-[100px] flex items-center justify-center"><Loader
-            className="animate-spin"/></div>
+        return <Skeleton className="h-[100px] w-full"/>
     } else if (category == undefined) {
         return <LeaderboardError title="Kategorie auswählen" message={<p>Bitte wähle eine Kategorie aus.</p>}/>
     } else {
