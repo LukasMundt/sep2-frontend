@@ -6,7 +6,7 @@ import LeaderboardError from "@/presentation/pages/game/components/leaderboard/L
 import LeaderboardTable from "@/presentation/pages/game/components/leaderboard/LeaderboardTable.tsx";
 
 export default function Leaderboard({category, gameSlug}: {
-    category: components["schemas"]["Category"]["id"] | undefined,
+    category: components["schemas"]["Category"]["categoryId"] | undefined,
     gameSlug: components["schemas"]["GameDto"]["slug"] | undefined,
 }) {
     const [loading, setLoading] = useState(false);

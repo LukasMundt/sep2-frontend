@@ -12,9 +12,9 @@ import GetCategoriesFromGame from "@/business-rules/get-categories-from-game.ts"
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 
 export default function CategorySelection({onSelection, gameSlug, category}: {
-    onSelection: (category: components["schemas"]["Category"]["id"]) => void,
+    onSelection: (category: components["schemas"]["Category"]["categoryId"]) => void,
     gameSlug?: components["schemas"]["GameDto"]["slug"],
-    category: components["schemas"]["Category"]["id"]
+    category?: components["schemas"]["Category"]["categoryId"]
 }) {
     const [categories, setCategories] = useState<components["schemas"]["Category"][]|undefined>(undefined);
     const [loading, setLoading] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export default function CategorySelection({onSelection, gameSlug, category}: {
     async function loadCategories(): Promise<void> {
         const {data} = await GetCategoriesFromGame(gameSlug??"");
         setCategories(data);
-        onSelection(data?.[0]?.id ?? "");
+        onSelection(data?.[0]?.categoryId ?? "");
         setLoading(false);
     }
 
@@ -38,7 +38,7 @@ export default function CategorySelection({onSelection, gameSlug, category}: {
     }
     return (
         <Select value={category}
-                onValueChange={(categorySelected: components["schemas"]["Category"]["id"]) => onSelection(categorySelected)}>
+                onValueChange={(categorySelected: components["schemas"]["Category"]["categoryId"]) => onSelection(categorySelected)}>
             <SelectTrigger className="w-full max-w-[233px] mx-auto mt-[34px]">
                 <SelectValue placeholder="Wähle eine Kategorie"/>
             </SelectTrigger>
@@ -46,10 +46,10 @@ export default function CategorySelection({onSelection, gameSlug, category}: {
                 <SelectGroup>
                     <SelectLabel>Kategorie</SelectLabel>
                     {categories.map((category, index) => (
-                        category.id != undefined &&
+                        category.categoryId != undefined &&
                         category.label != undefined &&
                         <SelectItem key={`${category}-${index}`}
-                                    value={category.id}>{category.label}</SelectItem>
+                                    value={category.categoryId}>{category.label}</SelectItem>
                     ))}
                 </SelectGroup>
             </SelectContent>

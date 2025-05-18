@@ -43,7 +43,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/api/games/{gameSlug}/categories": {
+    "/rest/api/games/{gameSlug}": {
         parameters: {
             query?: never;
             header?: never;
@@ -51,8 +51,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get available categories by game.
-         * @description Get available categories by game.
+         * Get game by game slug.
+         * @description Get game by game slug.
          */
         get: {
             parameters: {
@@ -65,16 +65,16 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Returns all available categories for the given game. */
+                /** @description Returns the GameDto for the given game slug. */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": components["schemas"]["Category"][];
+                        "application/json": components["schemas"]["GameDto"];
                     };
                 };
-                /** @description Returned if the game were not found. */
+                /** @description Returned if the game slug were not found. */
                 404: {
                     headers: {
                         [name: string]: unknown;
@@ -99,8 +99,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get leaderboard by game and category.
-         * @description Get leaderboard by game and category.
+         * Get leaderboard by game slug and category.
+         * @description Get leaderboard by game slug and category. The leaderboard is already sorted by runtime.
          */
         get: {
             parameters: {
@@ -116,7 +116,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Returns a list of runs that are representing the leaderboard. */
+                /** @description Returns a sorted list of runs that are representing the leaderboard. */
                 200: {
                     headers: {
                         [name: string]: unknown;
@@ -125,7 +125,7 @@ export interface paths {
                         "application/json": components["schemas"]["RunDto"][];
                     };
                 };
-                /** @description Returned if the game or category were not found. */
+                /** @description Returned if the game slug or category were not found. */
                 404: {
                     headers: {
                         [name: string]: unknown;
@@ -142,7 +142,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/api/reviews/unreviewed/all": {
+    "/rest/api/games/{gameSlug}/{categoryId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit a new run by game and category.
+         * @description Submit a new run by game and category.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description the game of the leaderboard */
+                    gameSlug: string;
+                    /** @description the category of the leaderboard */
+                    categoryId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["RunDto"];
+                };
+            };
+            responses: {
+                /** @description Returned if the run is submitted. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the game slug or category were not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the runtime doesn’t fulfill the requirements. */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/api/games/{gameSlug}/categories": {
         parameters: {
             query?: never;
             header?: never;
@@ -150,14 +217,162 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Get a list of all unreviewed runs.
-         * @description Get a list of all unreviewed runs. Only users with admin rights are allowed to get all unreviewed runs.
+         * Get available categories by game slug.
+         * @description Get available categories by game slug.
          */
         get: {
             parameters: {
                 query?: never;
                 header?: never;
-                path?: never;
+                path: {
+                    gameSlug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returns all available categories for the given game slug. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["Category"][];
+                    };
+                };
+                /** @description Returned if the game slug were not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        /**
+         * Adds a new category for a game.
+         * @description Adds a new category for a game. The id has to be unique. Only users with admin rights are allowed to add a new category.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameSlug: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Category"];
+                };
+            };
+            responses: {
+                /** @description Returned if the category was successfully added. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the id is not unique. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/api/games/{gameSlug}/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Deletes an existing category for a game.
+         * @description Deletes an existing category for a game. The id has to exist. Only users with admin rights are allowed to delete a category.
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameSlug: string;
+                    /** @description the category of the leaderboard */
+                    categoryId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returned if the category was successfully deleted. */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the id is not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/api/reviews/unreviewed/{gameSlug}/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Gets a list of unreviewed runs by game and category.
+         * @description Get a list of unreviewed runs. Only users with admin rights are allowed to get all unreviewed runs.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    gameSlug: string;
+                    /** @description the category of the leaderboard */
+                    categoryId: string;
+                };
                 cookie?: never;
             };
             requestBody?: never;
@@ -197,11 +412,15 @@ export interface paths {
         };
         get?: never;
         put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
         /**
          * Verifies a unreviewed run.
          * @description Verifies a unreviewed run. Only users with admin rights are allowed to verify a run.
          */
-        post: {
+        patch: {
             parameters: {
                 query?: never;
                 header?: never;
@@ -237,10 +456,6 @@ export interface paths {
                 };
             };
         };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     "/rest/auth": {
@@ -263,12 +478,14 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                /** @description Returned if the caller is authenticated. */
+                /** @description Returns the authorities if the caller is authenticated. */
                 200: {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": string[];
+                    };
                 };
                 /** @description Returned if the caller is not authenticated. */
                 401: {
@@ -279,6 +496,22 @@ export interface paths {
                 };
             };
         };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
         put?: never;
         /**
          * user login
@@ -293,7 +526,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["Credentials"];
+                    "application/json": components["schemas"]["LoginCredentials"];
                 };
             };
             responses: {
@@ -315,11 +548,26 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
         /**
          * user logout
          * @description Logs the current user out, destroying the existing token, if any.
          */
-        delete: {
+        post: {
             parameters: {
                 query?: never;
                 header?: never;
@@ -329,7 +577,7 @@ export interface paths {
             requestBody?: never;
             responses: {
                 /** @description Returned if the user was successfully logged out. */
-                204: {
+                200: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -344,6 +592,62 @@ export interface paths {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * user registration
+         * @description Registers a new user in the system.
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["RegisterCredentials"];
+                };
+            };
+            responses: {
+                /** @description Returned if the user was successfully registered. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the user is already registered. */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the password doesn’t fulfill the requirements. */
+                422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -367,16 +671,16 @@ export interface components {
             imageUrl: string;
         };
         RunReview: {
-            gameName?: string;
-            categoryLabel?: string;
-            uuid?: string;
-            run?: components["schemas"]["RunDto"];
+            gameName: string;
+            categoryLabel: string;
+            uuid: string;
+            run: components["schemas"]["RunDto"];
         };
         Category: {
             /** @example ANY_PERCENT */
-            id?: string;
+            categoryId: string;
             /** @example Any % */
-            label?: string;
+            label: string;
         };
         Runtime: {
             hours: number;
@@ -385,14 +689,19 @@ export interface components {
             milliseconds: number;
         };
         TokenResponse: {
-            access_token?: string;
+            accessToken: string;
             /** @example Bearer */
-            token_type?: string;
+            tokenType?: string;
             /** @example 3600 */
-            expires_in?: number;
+            expiresIn?: number;
         };
-        Credentials: {
+        RegisterCredentials: {
             username: string;
+            password: string;
+            email: string;
+        };
+        LoginCredentials: {
+            email: string;
             password: string;
         };
     };

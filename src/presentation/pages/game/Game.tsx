@@ -5,9 +5,9 @@ import {components} from "@/data-domain/schema";
 import Leaderboard from "@/presentation/pages/game/components/leaderboard/Leaderboard.tsx";
 
 export default function Game() {
-    let params = useParams();
+    const params = useParams();
 
-    const [category, setCategory] = useState<components["schemas"]["Category"]["id"] | undefined>(undefined);
+    const [category, setCategory] = useState<components["schemas"]["Category"]["categoryId"] | undefined>(undefined);
 
     return (
         <div className="grid md:grid-cols-3 lg:grid-cols-4 text-left gap-[34px]">
