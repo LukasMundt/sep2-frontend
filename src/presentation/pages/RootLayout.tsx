@@ -1,8 +1,10 @@
-import {Link, Outlet} from "react-router-dom";
+"use client";
+import {Link, Outlet, useLocation} from "react-router-dom";
 import {Button} from "@/presentation/components/ui/button.tsx";
 import {Toaster} from "sonner";
 
 export default function RootLayout() {
+    const location = useLocation();
     return (
         <>
             <nav
@@ -21,12 +23,12 @@ export default function RootLayout() {
                     </Link>
                 </div>
                 <div className="flex gap-[3px]">
-                    <a href="/signin">
-                        <Button variant="link" className="cursor-pointer px-[5px]">Einloggen</Button>
-                    </a>
-                    <a href="/signup">
-                        <Button variant="link" className="cursor-pointer px-[5px]">Registrieren</Button>
-                    </a>
+                    <Link to={{
+                        pathname: "/login",
+                        search: '?returnUrl=' + encodeURIComponent(location.pathname),
+                    }}>
+                        <Button variant="outline" className="cursor-pointer">Anmelden</Button>
+                    </Link>
                 </div>
             </nav>
             <main className="mt-[13px] px-[21px] md:px-[55px] xl:px-[89px] 2xl:px-[144px]">
