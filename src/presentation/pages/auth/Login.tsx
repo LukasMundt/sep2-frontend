@@ -8,7 +8,7 @@ import LoginUser from "@/business-rules/auth/login-user.ts";
 import {Input} from "@/presentation/components/ui/input.tsx";
 import {Button} from "@/presentation/components/ui/button.tsx";
 import Cookies from "universal-cookie";
-import {Link, useNavigate, useSearchParams} from "react-router-dom";
+import {Link, Navigate, useNavigate, useSearchParams} from "react-router-dom";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
 
 const FormSchema = z.object({
@@ -48,7 +48,7 @@ export default function Login() {
     }
 
     if(isAuthenticatedSimple()) {
-        navigate(searchParams.get("returnUrl") ??"/");
+        return <Navigate to={searchParams.get("returnUrl") ??"/"} />;
     }
 
     return (

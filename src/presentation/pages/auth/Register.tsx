@@ -14,7 +14,7 @@ import {z} from "zod";
 import {Button} from "@/presentation/components/ui/button.tsx";
 import RegisterUser from "@/business-rules/auth/register-user.ts";
 import {toast} from "sonner";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
 
 const FormSchema = z.object({
@@ -64,7 +64,7 @@ export default function Register() {
     }
 
     if(isAuthenticatedSimple()) {
-        navigate("/");
+        return <Navigate to="/" />;
     }
 
     return (
