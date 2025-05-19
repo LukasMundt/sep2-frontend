@@ -9,8 +9,11 @@ on:
       - "master"
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.vars.outputs.TAG }}
+      subdomain: ${{ steps.vars.outputs.SUBDOMAIN }}
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -29,8 +32,12 @@ jobs:
         run: |
           BRANCH_NAME="${GITHUB_REF##*/}"
           SAFE_BRANCH=$(echo "$BRANCH_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-')
-          echo "SUBDOMAIN=${SAFE_BRANCH}.dev.${{ vars.ROOT_DOMAIN }}" >> $GITHUB_ENV
-          echo "TAG=${{ vars.DOCKER_HUB_USERNAME }}/se2p-frontend:${SAFE_BRANCH}-$(date +%s)" >> $GITHUB_ENV
+          SUBDOMAIN="${SAFE_BRANCH}.dev.${{ vars.ROOT_DOMAIN }}"
+          TAG="${{ vars.DOCKER_HUB_USERNAME }}/se2p-frontend:${SAFE_BRANCH}-$(date +%s)"
+          echo "SUBDOMAIN=${SUBDOMAIN}" >> $GITHUB_ENV
+          echo "TAG=${TAG}" >> $GITHUB_ENV
+          echo "SUBDOMAIN=${SUBDOMAIN}" >> $GITHUB_OUTPUT
+          echo "TAG=${TAG}" >> $GITHUB_OUTPUT
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -44,11 +51,16 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
       - name: Deploy to Cloudron
         uses: rossmaclean/cloudron-deploy-action@v0.0.26
         with:
-          app-domain: ${{ env.SUBDOMAIN }}
-          image: ${{ env.TAG }}
+          app-domain: ${{ needs.build.outputs.subdomain }}
+          image: ${{ needs.build.outputs.image_tag }}
           cloudron-server: ${{ vars.CLOUDRON_SERVER }}
           cloudron-token: ${{ secrets.CLOUDRON_API_TOKEN }}
           install-if-missing: "true"

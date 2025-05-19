@@ -1,0 +1,43 @@
+name: Delete Feature Deployment
+
+on:
+  delete:
+    branches:
+      - "*"
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event.ref_type == 'branch' && github.event.ref != 'master'
+    steps:
+      - name: Sanitize deleted branch name
+        id: sanitize
+        run: |
+          BRANCH_NAME="${{ github.event.ref }}"
+          SAFE_BRANCH=$(echo "$BRANCH_NAME" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9-')
+          SUBDOMAIN="${SAFE_BRANCH}.dev.${{ vars.ROOT_DOMAIN }}"
+          echo "subdomain=$SUBDOMAIN" >> $GITHUB_OUTPUT
+
+      - name: Check and delete Cloudron App
+        env:
+          CLOUDRON_SERVER: ${{ vars.CLOUDRON_SERVER }}
+          CLOUDRON_API_TOKEN: ${{ secrets.CLOUDRON_API_TOKEN }}
+        run: |
+          APP_DOMAIN="${{ steps.sanitize.outputs.subdomain }}"
+
+          # Sicherheitsprüfung: Nur Subdomains mit ".dev." löschen
+          if [[ "$APP_DOMAIN" != *".dev."* ]]; then
+            echo "Refusing to delete app: Subdomain '$APP_DOMAIN' is not a dev environment."
+            exit 1
+          fi
+
+          # App-ID ermitteln
+          APP_ID=$(curl -s -H "Authorization: Bearer $CLOUDRON_API_TOKEN" https://$CLOUDRON_SERVER/api/v1/apps \
+            | jq -r --arg domain "$APP_DOMAIN" '.apps[] | select(.fqdn==$domain) | .id')
+
+          if [ -n "$APP_ID" ]; then
+            echo "Deleting Cloudron app with ID: $APP_ID ($APP_DOMAIN)"
+            curl -X POST -H "Authorization: Bearer $CLOUDRON_API_TOKEN" https://$CLOUDRON_SERVER/api/v1/apps/$APP_ID/uninstall
+          else
+            echo "No app found for subdomain $APP_DOMAIN. Nothing to delete."
+          fi 

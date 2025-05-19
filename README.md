@@ -11,3 +11,8 @@
 3. Run ``npm install`` in the project folder
 4. Run  ``npm run dev``
 5. Now you can view the frontend from your browser. The url is displayed in your console.
+
+## Generate typescript from openapi-documentation
+```
+npx openapi-typescript ./speedruns_Api_0.1.0.yaml -o ./src/data-domain/schema.d.ts
+```

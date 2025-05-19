@@ -8,14 +8,13 @@ chown -R cloudron:cloudron /app/data
 if [[ ! -f /app/data/.env-file-copied ]]; then
     echo "=> First run"
     cp /app/code/.env.prod-cloudron /app/data/env
-
     chown -R cloudron:cloudron /app/data
-
     touch /app/data/.env-file-copied
 fi
 
-echo "Starting app"
+# Setze Port auf 80
+export PORT=80
 
-APACHE_CONFDIR="" source /etc/apache2/envvars
-rm -f "${APACHE_PID_FILE}"
-exec /usr/sbin/apache2 -DFOREGROUND
+# Starte Express-Server
+echo "Starting Express server"
+exec node /app/code/server.cjs
