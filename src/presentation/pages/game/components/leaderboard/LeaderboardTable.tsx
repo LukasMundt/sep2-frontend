@@ -4,15 +4,10 @@ import {components} from "@/data-domain/schema";
 export default function LeaderboardTable({runs}: { runs: components["schemas"]["RunDto"][] }) {
 
     function runtimeToString(runtime: components["schemas"]["Runtime"]): string {
-        let string = "";
-        if (runtime.hours > 0) {
-            string += runtime.hours + ":";
-        }
-        string += runtime.minutes + ":";
-        string += runtime.seconds;
-        if (runtime.milliseconds > 0) {
-            string += "." + runtime.milliseconds;
-        }
+        let string = runtime.hours.toFixed(0).padStart(2, "0") + ":";
+        string += runtime.minutes.toFixed(0).padStart(2, "0") + ":";
+        string += runtime.seconds.toFixed(0).padStart(2, "0");
+        string += "." + runtime.milliseconds.toFixed(0).padStart(3, "0");
         return string;
     }
 
