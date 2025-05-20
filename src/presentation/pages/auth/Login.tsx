@@ -7,7 +7,6 @@ import {toast} from "sonner";
 import LoginUser from "@/business-rules/auth/login-user.ts";
 import {Input} from "@/presentation/components/ui/input.tsx";
 import {Button} from "@/presentation/components/ui/button.tsx";
-import Cookies from "universal-cookie";
 import {Link, Navigate, useNavigate, useSearchParams} from "react-router-dom";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
 
@@ -32,8 +31,6 @@ export default function Login() {
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         LoginUser(data).then(res => {
             if (res.success) {
-                const cookie = new Cookies(null, {path: '/'});
-                cookie.set("accessToken", res.data?.accessToken, {path: '/', maxAge: res.data?.expiresIn, secure: true});
                 toast.success("Erfolgreich angemeldet");
                 navigate(searchParams.get("returnUrl") ??"/");
             } else if(res.statusCode == 401)

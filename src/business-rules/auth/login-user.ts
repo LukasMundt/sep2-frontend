@@ -1,5 +1,6 @@
 import type {components, paths} from "@/data-domain/schema";
 import createClient from "openapi-fetch";
+import Cookies from "universal-cookie";
 
 export default async function LoginUser(
     loginCredentials: components["schemas"]["LoginCredentials"],
@@ -27,6 +28,16 @@ export default async function LoginUser(
                 break;
             default:
                 errorMessage = undefined;
+        }
+        if (response.ok) {
+            const cookie = new Cookies(null, {path: '/'});
+            cookie.set("accessToken", data?.accessToken, {
+                path: '/',
+                maxAge: data?.expiresIn,
+                secure: true,
+                httpOnly: true,
+                sameSite: "strict"
+            });
         }
         return {
             data: data,
