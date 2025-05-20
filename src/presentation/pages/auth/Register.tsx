@@ -130,7 +130,7 @@ export default function Register() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full">
+                        <Button type="submit" className="w-full cursor-pointer">
                             Account erstellen
                         </Button>
                     </form>
