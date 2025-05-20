@@ -2,6 +2,8 @@
 import {Link, Outlet, useLocation} from "react-router-dom";
 import {Button} from "@/presentation/components/ui/button.tsx";
 import {Toaster} from "sonner";
+import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
+import LogoutButton from "@/presentation/components/auth/LogoutButton.tsx";
 
 export default function RootLayout() {
     const location = useLocation();
@@ -23,16 +25,17 @@ export default function RootLayout() {
                     </Link>
                 </div>
                 <div className="flex gap-[3px]">
-                    <Link to={{
-                        pathname: "/login",
-                        search: '?returnUrl=' + encodeURIComponent(location.pathname),
-                    }}>
-                        <Button variant="outline" className="cursor-pointer">Anmelden</Button>
-                    </Link>
+                    {isAuthenticatedSimple() ? <LogoutButton/> :
+                        <Link to={{
+                            pathname: "/login",
+                            search: '?returnUrl=' + encodeURIComponent(location.pathname),
+                        }}>
+                            <Button variant="outline" className="cursor-pointer">Anmelden</Button>
+                        </Link>}
                 </div>
             </nav>
             <main className="mt-[13px] px-[21px] md:px-[55px] xl:px-[89px] 2xl:px-[144px]">
-                <Toaster />
+                <Toaster/>
                 <Outlet/>
             </main>
         </>
