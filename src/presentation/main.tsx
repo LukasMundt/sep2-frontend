@@ -9,6 +9,7 @@ import Game from "@/presentation/pages/game/Game.tsx";
 import Register from "@/presentation/pages/auth/Register.tsx";
 import Login from "@/presentation/pages/auth/Login.tsx";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
+import UploadSpeedrun from "@/presentation/pages/upload-speedrun/UploadSpeedrun.tsx";
 
 export default function App() {
     return (
@@ -26,12 +27,8 @@ export default function App() {
                         <Route path="/register" element={<Register/>}/>
                         <Route path="/login" element={<Login/>}/>
                         {/* Private pages */}
-                        <Route path="/protected" element={
-                            <PrivateWrapper>
-                                <div>
-                                    <h1>Protected</h1>
-                                </div>
-                            </PrivateWrapper>
+                        <Route path="/upload-speedrun" element={
+                            <PrivateWrapper><UploadSpeedrun/></PrivateWrapper>
                         }/>
 
                         {/* Fallback */}
