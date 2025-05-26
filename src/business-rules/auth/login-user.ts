@@ -24,7 +24,6 @@ export default async function LoginUser(
                     path: '/',
                     maxAge: res.data?.expiresIn,
                     secure: true,
-                    httpOnly: true,
                     sameSite: "strict"
                 });
             } else if(res.response.status == 401) {
