@@ -58,7 +58,7 @@ export default function Register() {
                 toast.success("Account erfolgreich erstellt.");
                 navigate(`/login?email=${data.email}`)
             } else {
-                toast.error("Account konnte nicht erstellt werden.");
+                toast.error(res.errorMessage);
             }
         })
     }
