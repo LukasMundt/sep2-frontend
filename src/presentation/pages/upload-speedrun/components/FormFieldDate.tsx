@@ -3,7 +3,6 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/presentation/components
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 import {Button} from "@/presentation/components/ui/button.tsx";
 import {cn} from "@/presentation/lib/utils.ts";
-import {format} from "date-fns";
 import {CalendarIcon} from "lucide-react";
 import {Calendar} from "@/presentation/components/ui/calendar.tsx";
 
@@ -34,7 +33,7 @@ export default function FormFieldDate({form, watchedCategory, watchedGame}: Read
                                         )}
                                     >
                                         {field.value ? (
-                                            format(field.value, "d.M.y")
+                                            field.value.toLocaleDateString()
                                         ) : (
                                             <span>Pick a date</span>
                                         )}
@@ -50,7 +49,6 @@ export default function FormFieldDate({form, watchedCategory, watchedGame}: Read
                                 disabled={(date) =>
                                     date > new Date() || date < new Date("1900-01-01")
                                 }
-                                initialFocus
                             />
                         </PopoverContent>
                     </Popover>
