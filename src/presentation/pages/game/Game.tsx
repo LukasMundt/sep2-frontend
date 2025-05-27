@@ -1,10 +1,11 @@
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import CategorySelection from "@/presentation/pages/game/components/CategorySelection.tsx";
 import {components} from "@/data-domain/schema";
 import Leaderboard from "@/presentation/pages/game/components/leaderboard/Leaderboard.tsx";
 import GetGame from "@/business-rules/get-game.ts";
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
+import {Button} from "@/presentation/components/ui/button.tsx";
 
 export default function Game() {
     const params = useParams();
@@ -41,6 +42,14 @@ export default function Game() {
             <div className="md:col-span-2 lg:col-span-3">
                 <div className="flex items-center justify-between mb-[34px]">
                     <h3 className="text-3xl font-semibold">Leaderboard</h3>
+                    <Link to={{
+                        pathname: "/upload-speedrun",
+                        search: `?game=${params.gameSlug}&category=${category}&returnUrl=${encodeURIComponent(window.location.pathname)}`,
+                    }}>
+                        <Button variant="outline" className="cursor-pointer">
+                            Speedrun einreichen
+                        </Button>
+                    </Link>
                 </div>
                 <Leaderboard category={category} gameSlug={params.gameSlug}/>
             </div>

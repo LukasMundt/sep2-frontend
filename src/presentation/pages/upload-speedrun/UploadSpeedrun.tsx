@@ -1,4 +1,4 @@
-import {useSearchParams} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -15,6 +15,8 @@ import FormFieldGame from "@/presentation/pages/upload-speedrun/components/FormF
 import FormFieldCategory from "@/presentation/pages/upload-speedrun/components/FormFieldCategory.tsx";
 import FormFieldDate from "@/presentation/pages/upload-speedrun/components/FormFieldDate.tsx";
 import FormFieldRuntime from "@/presentation/pages/upload-speedrun/components/FormFieldRuntime.tsx";
+import {cn} from "@/presentation/lib/utils.ts";
+import {ChevronLeft} from "lucide-react";
 
 export default function UploadSpeedrun() {
     const [searchParams] = useSearchParams();
@@ -111,26 +113,33 @@ export default function UploadSpeedrun() {
 
 
     return (
-        <Card className="max-w-[400px] mx-auto">
-            <CardHeader>
-                <h1 className="text-2xl font-semibold text-center">Reiche einen Speedrun ein</h1>
-                <CardDescription className="text-center">
-                    Gib die Daten deines Speedruns ein und erscheine in kurzer Zeit auf dem Leaderboard.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
-                        <FormFieldGame form={form} games={games}/>
-                        <FormFieldCategory form={form} categories={categories}/>
-                        <FormFieldDate form={form} watchedCategory={watchedCategory} watchedGame={watchedGame}/>
-                        <FormFieldRuntime form={form} watchedDate={watchedDate} watchedCategory={watchedCategory}
-                                          watchedGame={watchedGame}/>
-                        <Button type="submit" className="w-full cursor-pointer"
-                                disabled={!(watchedCategory && watchedGame && watchedDate && watchedRuntime)}>Absenden</Button>
-                    </form>
-                </Form>
-            </CardContent>
-        </Card>
+        <div className="relative">
+            <div className={cn("absolute left-0 top-0", !searchParams.has("returnUrl") && "hidden")}>
+                <Link to={searchParams.get("returnUrl") ?? "/"}>
+                    <Button variant={"outline"} size={"icon"} className="cursor-pointer"><ChevronLeft /></Button>
+                </Link>
+            </div>
+            <Card className="max-w-[400px] mx-auto">
+                <CardHeader>
+                    <h1 className="text-2xl font-semibold text-center">Reiche einen Speedrun ein</h1>
+                    <CardDescription className="text-center">
+                        Gib die Daten deines Speedruns ein und erscheine in kurzer Zeit auf dem Leaderboard.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+                            <FormFieldGame form={form} games={games}/>
+                            <FormFieldCategory form={form} categories={categories}/>
+                            <FormFieldDate form={form} watchedCategory={watchedCategory} watchedGame={watchedGame}/>
+                            <FormFieldRuntime form={form} watchedDate={watchedDate} watchedCategory={watchedCategory}
+                                              watchedGame={watchedGame}/>
+                            <Button type="submit" className="w-full cursor-pointer"
+                                    disabled={!(watchedCategory && watchedGame && watchedDate && watchedRuntime)}>Absenden</Button>
+                        </form>
+                    </Form>
+                </CardContent>
+            </Card>
+        </div>
     );
 }
