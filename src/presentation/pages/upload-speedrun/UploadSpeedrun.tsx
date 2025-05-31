@@ -127,13 +127,13 @@ export default function UploadSpeedrun() {
 
 
     return (
-        <div className="relative">
+        <div className={cn("relative", searchParams.has("returnUrl") && "pt-16 sm:pt-0")}>
             <div className={cn("absolute left-0 top-0", !searchParams.has("returnUrl") && "hidden")}>
                 <Link to={searchParams.get("returnUrl") ?? "/"}>
                     <Button variant={"outline"} size={"icon"} className="cursor-pointer"><ChevronLeft /></Button>
                 </Link>
             </div>
-            <Card className="max-w-[400px] mx-auto">
+            <Card className={"max-w-[400px] mx-auto"}>
                 <CardHeader>
                     <h1 className="text-2xl font-semibold text-center">Reiche einen Speedrun ein</h1>
                     <CardDescription className="text-center">
