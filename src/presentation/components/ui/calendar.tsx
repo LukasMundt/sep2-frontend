@@ -21,15 +21,17 @@ function Calendar({
             classNames={{
                 months: "flex flex-col sm:flex-row gap-2",
                 month: "flex flex-col gap-4",
-                caption: "flex justify-center pt-1 relative items-center w-full",
+                month_caption: "flex justify-center pt-1 relative items-center w-full",
                 caption_label: "text-sm font-medium",
                 nav: "flex items-center gap-1",
-                nav_button: cn(
+                button_previous: cn(
                     buttonVariants({variant: "outline"}),
-                    "size-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+                    "absolute left-4 top-4 size-7 bg-transparent p-0 opacity-50 hover:opacity-100"
                 ),
-                nav_button_previous: "absolute left-1",
-                nav_button_next: "absolute right-1",
+                button_next: cn(
+                    buttonVariants({variant: "outline"}),
+                    "absolute right-4 top-4 size-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+                ),
                 table: "w-full border-collapse space-x-1",
                 head_row: "flex",
                 head_cell:
@@ -52,6 +54,8 @@ function Calendar({
                 range_middle:
                     "aria-selected:bg-accent aria-selected:text-accent-foreground",
                 hidden: "invisible",
+                weekdays: "flex justify-between",
+                weekday: "px-1",
                 ...classNames,
             }}
             components={{
@@ -61,7 +65,7 @@ function Calendar({
                     } else {
                         return <ChevronRight className={cn("size-4", className)} {...props} />
                     }
-                }
+                },
             }}
             {...props}
         />
