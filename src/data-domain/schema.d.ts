@@ -169,7 +169,7 @@ export interface paths {
             };
             requestBody: {
                 content: {
-                    "application/json": components["schemas"]["RunDto"];
+                    "application/json": components["schemas"]["RunSubmit"];
                 };
             };
             responses: {
@@ -187,8 +187,15 @@ export interface paths {
                     };
                     content?: never;
                 };
-                /** @description Returned if the game slug or category were not found. */
+                /** @description Returned if the game slug, category or Speedrunner username were not found. */
                 404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the speedrunner already has a faster run time on the leaderboard */
+                406: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -361,7 +368,7 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Gets a list of unreviewed runs by game and category.
+         * Get a list of unreviewed runs by game and category.
          * @description Get a list of unreviewed runs. Only users with admin rights are allowed to get all unreviewed runs.
          */
         get: {
@@ -554,50 +561,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/auth/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * user logout
-         * @description Logs the current user out, destroying the existing token, if any.
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description Returned if the user was successfully logged out. */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                /** @description Returned if the caller is not authenticated. */
-                401: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/rest/auth/register": {
         parameters: {
             query?: never;
@@ -636,10 +599,58 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "application/json": components["schemas"]["RegisterError"];
+                    };
                 };
-                /** @description Returned if the password doesn’t fulfill the requirements. */
+                /** @description Returned if the password, email or username doesn’t fulfill the requirements. */
                 422: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": components["schemas"]["RegisterError"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/rss/getFeedUrl": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the RSS Feed URL.
+         * @description Get the RSS Feed URL.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returns the RSS Feed URL if the caller is authenticated. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": string;
+                    };
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
                     headers: {
                         [name: string]: unknown;
                     };
@@ -647,6 +658,56 @@ export interface paths {
                 };
             };
         };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/rest/rss/getFeed/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get the RSS Feed.
+         * @description Get the RSS Feed to the given id.
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returns the RSS Feed to the given id. */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/xml": string;
+                    };
+                };
+                /** @description Returned if the id is not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -676,6 +737,11 @@ export interface components {
             uuid: string;
             run: components["schemas"]["RunDto"];
         };
+        RunSubmit: {
+            /** Format: date-time */
+            date: string;
+            runtime: components["schemas"]["Runtime"];
+        };
         Category: {
             /** @example ANY_PERCENT */
             categoryId: string;
@@ -694,6 +760,11 @@ export interface components {
             tokenType?: string;
             /** @example 3600 */
             expiresIn?: number;
+        };
+        RegisterError: {
+            usernameError?: string;
+            emailError?: string;
+            passwordError?: string;
         };
         RegisterCredentials: {
             username: string;
