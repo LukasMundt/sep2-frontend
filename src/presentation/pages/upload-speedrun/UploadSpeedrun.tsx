@@ -17,6 +17,7 @@ import FormFieldDate from "@/presentation/pages/upload-speedrun/components/FormF
 import FormFieldRuntime from "@/presentation/pages/upload-speedrun/components/FormFieldRuntime.tsx";
 import {cn} from "@/presentation/lib/utils.ts";
 import {ChevronLeft} from "lucide-react";
+import submitRun from "@/business-rules/submit-run.ts";
 
 export default function UploadSpeedrun() {
     const [searchParams] = useSearchParams();
@@ -108,7 +109,20 @@ export default function UploadSpeedrun() {
     }, [watchedGame])
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data);
+        submitRun(
+            data.game,
+            data.category,
+            {
+                date: data.date.toISOString(),
+                runtime: data.runtime
+            }
+        ).then(res => {
+            if (res.success) {
+                toast.success("Speedrun erfolgreich eingereicht.");
+            } else {
+                toast.error("Es ist ein Fehler beim Erstellen des Speedruns aufgetreten.");
+            }
+        })
     }
 
 
