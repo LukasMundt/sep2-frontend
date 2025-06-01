@@ -14,5 +14,5 @@
 
 ## Generate typescript from openapi-documentation
 ```
-npx openapi-typescript ./speedruns_Api_0.1.0.yaml -o ./src/data-domain/schema.d.ts
+npx openapi-typescript ./api/speedruns_Api_0.1.0.yaml -o ./src/data-domain/schema.d.ts
 ```
