@@ -5,16 +5,13 @@ import {useEffect, useState} from "react";
 import GetUnverifiedRunsByGameAndCategory from "@/business-rules/get-unverified-runs-by-game-and-category.ts";
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 import {Alert, AlertTitle} from "@/presentation/components/ui/alert.tsx";
-import {Button} from "@/presentation/components/ui/button.tsx";
-import {Check} from "lucide-react";
-import {useIsMobile} from "@/presentation/hooks/use-mobile.ts";
 import {toast} from "sonner";
+import VerifyButton from "@/presentation/pages/admin/verify/components/VerifyButton.tsx";
 
 export default function RunsTable({gameSlug, category}: {
     readonly gameSlug?: components["schemas"]["GameDto"]["slug"],
     readonly category?: components["schemas"]["Category"]["categoryId"]
 }) {
-    const isMobile = useIsMobile();
 
     const [runs, setRuns] = useState<components["schemas"]["RunReview"][] | undefined>([]);
     const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +21,7 @@ export default function RunsTable({gameSlug, category}: {
         if (!loading && !error && runs === undefined && gameSlug != undefined && category != undefined) {
             setLoading(true);
             GetUnverifiedRunsByGameAndCategory(gameSlug, category).then(({success, data, errorMessage}) => {
-                setRuns(data);
+                setRuns(data?.sort((a, b) => a.run.date.localeCompare(b.run.date)));
                 setError(errorMessage != undefined || !success);
                 if (errorMessage != undefined) {
                     toast.error(errorMessage);
@@ -53,27 +50,23 @@ export default function RunsTable({gameSlug, category}: {
         return <Skeleton className="h-20"/>;
     }
 
-
     return (<Table className="w-full">
         <TableHeader>
             <TableRow>
                 <TableHead className="font-semibold">Spieler</TableHead>
                 <TableHead className="font-semibold">Zeit</TableHead>
                 <TableHead>Datum</TableHead>
-                <TableHead>#</TableHead>
+                <TableHead></TableHead>
             </TableRow>
         </TableHeader>
         <TableBody>
-            {runs.map((run, index) => (
-                <TableRow key={index}>
+            {runs.map((run) => (
+                <TableRow key={run.uuid}>
                     <TableCell>{run.run.speedrunner}</TableCell>
                     <TableCell>{runtimeToString(run.run.runtime)}</TableCell>
                     <TableCell>{new Date(run.run.date).toLocaleDateString()}</TableCell>
                     <TableCell>
-                        <Button size={isMobile ? "icon" : "default"}>
-                            <Check/>
-                            <span className={isMobile ? "hidden" : ""}>Verifizieren</span>
-                        </Button>
+                        <VerifyButton run={run} />
                     </TableCell>
                 </TableRow>
             ))}
