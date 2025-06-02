@@ -7,12 +7,12 @@ import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 import {toast} from "sonner";
 
 export default function Leaderboard({category, gameSlug}: {
-    category: components["schemas"]["Category"]["categoryId"] | undefined,
-    gameSlug: components["schemas"]["GameDto"]["slug"] | undefined,
+    readonly category: components["schemas"]["Category"]["categoryId"] | undefined,
+    readonly gameSlug: components["schemas"]["GameDto"]["slug"] | undefined,
 }) {
     const [loading, setLoading] = useState(false);
     const [leaderboard, setLeaderboard] = useState<components["schemas"]["RunDto"][] | undefined>(undefined);
-    const [error, setError] = useState<undefined|boolean>(undefined);
+    const [error, setError] = useState<undefined | boolean>(undefined);
 
     useEffect(() => {
         if (leaderboard == undefined && category != undefined && error == undefined && !loading) {

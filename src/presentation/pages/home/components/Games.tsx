@@ -5,6 +5,7 @@ import {Card} from "@/presentation/components/ui/card.tsx";
 import {MoveUpRight} from "lucide-react";
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 import {toast} from "sonner";
+import {Link} from "react-router-dom";
 
 export function Games() {
     const [games, setGames] = useState<components["schemas"]["GameDto"][] | undefined>(undefined);
@@ -43,7 +44,7 @@ export function Games() {
             {
                 games != undefined && games.map((game: components["schemas"]["GameDto"], index) => (
                     <div key={index} className="relative group/item">
-                        <a href={`/games/${game.slug}`}>
+                        <Link to={`/games/${game.slug}`}>
                             <img src={game.imageUrl} alt={`Image for the game${game.name}`}
                                  className="group-has-[:hover]/list:opacity-50 transition-opacity duration-300 ease-in-out rounded-md"/>
                             <Card
@@ -55,7 +56,7 @@ export function Games() {
                                     <MoveUpRight className="size-[13px]"/>
                                 </div>
                             </Card>
-                        </a>
+                        </Link>
                     </div>
                 ))
             }
