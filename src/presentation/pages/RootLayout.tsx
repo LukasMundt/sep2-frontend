@@ -4,9 +4,12 @@ import {Button} from "@/presentation/components/ui/button.tsx";
 import {Toaster} from "sonner";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
 import LogoutButton from "@/presentation/components/auth/LogoutButton.tsx";
+import {useIsAdmin} from "@/presentation/hooks/is-admin.ts";
 
 export default function RootLayout() {
     const location = useLocation();
+    const isAdmin = useIsAdmin();
+
     return (
         <>
             <nav
@@ -23,6 +26,14 @@ export default function RootLayout() {
                     <Link to="/" className="sr-only sm:not-sr-only">
                         <h1 className="text-3xl uppercase">speedruns.com</h1>
                     </Link>
+                </div>
+                <div className="grow pl-2">
+                    {isAdmin &&
+                        <Link to="/runs/unverified">
+                            <Button variant="link" className="cursor-pointer">
+                                Speedruns reviewen
+                            </Button>
+                        </Link>}
                 </div>
                 <div className="flex gap-[3px]">
                     {isAuthenticatedSimple() ? <LogoutButton/> :

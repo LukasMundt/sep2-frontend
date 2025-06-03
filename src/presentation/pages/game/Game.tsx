@@ -34,9 +34,9 @@ export default function Game() {
     return (
         <div className="grid md:grid-cols-3 lg:grid-cols-4 text-left gap-[34px]">
             <div className="">
-                {loading||error?<Skeleton className="aspect-square max-w-[233px]"/>:<img src={game?.imageUrl} alt={params.gameSlug}
+                {loading||error?<Skeleton className="aspect-square max-w-[233px] mx-auto"/>:<img src={game?.imageUrl} alt={params.gameSlug}
                      className="max-w-[233px] mx-auto rounded-md"/>}
-                {loading||error?<Skeleton className="h-9 mt-1 max-w-[233px]"/>:<h2 className="text-center text-5xl font-semibold">{game?.name}</h2>}
+                {loading||error?<Skeleton className="h-9 mt-1 max-w-[233px] mx-auto"/>:<h2 className="text-center text-5xl font-semibold">{game?.name}</h2>}
                 <CategorySelection onSelection={setCategory} gameSlug={params.gameSlug} category={category}/>
             </div>
             <div className="md:col-span-2 lg:col-span-3">
