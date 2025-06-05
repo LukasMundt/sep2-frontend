@@ -216,6 +216,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/rest/api/games/{uuid}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Deletes an existing run by uuid.
+         * @description Deletes an existing run by uuid. Only users with admin rights are allowed to delete a run.
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description uuid of the game */
+                    uuid: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returned if the run is successfully deleted. */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the uuid is not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/rest/api/games/{gameSlug}/categories": {
         parameters: {
             query?: never;
@@ -410,7 +464,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/api/reviews/verify": {
+    "/rest/api/reviews/unreviewed/{uuid}": {
         parameters: {
             query?: never;
             header?: never;
@@ -420,7 +474,45 @@ export interface paths {
         get?: never;
         put?: never;
         post?: never;
-        delete?: never;
+        /**
+         * Deletes a unreviewed run.
+         * @description Deletes a unreviewed run. Only users with admin rights are allowed to delete a run.
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    /** @description uuid of the game */
+                    uuid: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Returned if the run is successfully deleted. */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the caller is not authenticated. */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Returned if the uuid is not found. */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
         options?: never;
         head?: never;
         /**
@@ -431,14 +523,13 @@ export interface paths {
             parameters: {
                 query?: never;
                 header?: never;
-                path?: never;
+                path: {
+                    /** @description uuid of the game */
+                    uuid: string;
+                };
                 cookie?: never;
             };
-            requestBody: {
-                content: {
-                    "application/json": string;
-                };
-            };
+            requestBody?: never;
             responses: {
                 /** @description Returned if the run is successfully verified. */
                 200: {
@@ -724,6 +815,8 @@ export interface components {
             /** Format: date-time */
             date: string;
             runtime: components["schemas"]["Runtime"];
+            /** Format: URL */
+            videoLink: string;
         };
         GameDto: {
             /** @example minecraft */
@@ -741,6 +834,8 @@ export interface components {
             /** Format: date-time */
             date: string;
             runtime: components["schemas"]["Runtime"];
+            /** Format: URL */
+            videoLink: string;
         };
         Category: {
             /** @example ANY_PERCENT */
@@ -768,11 +863,15 @@ export interface components {
         };
         RegisterCredentials: {
             username: string;
+            /** Format: password */
             password: string;
+            /** Format: email */
             email: string;
         };
         LoginCredentials: {
+            /** Format: email */
             email: string;
+            /** Format: password */
             password: string;
         };
     };
