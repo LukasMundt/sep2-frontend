@@ -25,7 +25,7 @@ export default function DeclineButton({run, onDecline, disabled}: {
         })
     }
 
-    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleDecline(run.uuid)} disabled={disabled}>
+    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleDecline(run.uuid)} disabled={disabled} className="cursor-pointer">
         <X/>
         <span className={isMobile ? "hidden" : ""}>Ablehnen</span>
     </Button>
