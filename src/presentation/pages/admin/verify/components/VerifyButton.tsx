@@ -4,17 +4,19 @@ import {components} from "@/data-domain/schema";
 import {useIsMobile} from "@/presentation/hooks/use-mobile.ts";
 import VerifyRun from "@/business-rules/verify-run";
 import {toast} from "sonner";
-import {useState} from "react";
 
-export default function VerifyButton({run}: { readonly run: components["schemas"]["RunReview"] }) {
+export default function VerifyButton({run, onVerify, disabled}: {
+    readonly run: components["schemas"]["RunReview"],
+    readonly onVerify: (verified: boolean) => void,
+    readonly disabled: boolean
+}) {
     const isMobile = useIsMobile();
-    const [verified, setVerified] = useState<boolean>(false);
 
     function handleVerify(uuid: components["schemas"]["RunReview"]["uuid"]) {
         VerifyRun(uuid).then(({success, errorMessage}) => {
             if (success) {
                 toast.success("Verifiziert")
-                setVerified(true);
+                onVerify(true);
             } else {
                 toast.error(errorMessage ?? "Fehler beim Verifizieren")
             }
@@ -23,7 +25,8 @@ export default function VerifyButton({run}: { readonly run: components["schemas"
         })
     }
 
-    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleVerify(run.uuid)} disabled={verified}>
+    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleVerify(run.uuid)} disabled={disabled}
+                   className="cursor-pointer">
         <Check/>
         <span className={isMobile ? "hidden" : ""}>Verifizieren</span>
     </Button>

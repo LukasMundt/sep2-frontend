@@ -1,12 +1,11 @@
 import {components} from "@/data-domain/schema";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/presentation/components/ui/table.tsx";
-import {runtimeToString} from "@/business-rules/runtime-to-string.ts";
+import {Table, TableBody, TableHead, TableHeader, TableRow} from "@/presentation/components/ui/table.tsx";
 import {useEffect, useState} from "react";
 import GetUnverifiedRunsByGameAndCategory from "@/business-rules/get-unverified-runs-by-game-and-category.ts";
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 import {Alert, AlertTitle} from "@/presentation/components/ui/alert.tsx";
 import {toast} from "sonner";
-import VerifyButton from "@/presentation/pages/admin/verify/components/VerifyButton.tsx";
+import RunsTableRow from "@/presentation/pages/admin/verify/components/RunsTable_Row.tsx";
 
 export default function RunsTable({gameSlug, category}: {
     readonly gameSlug?: components["schemas"]["GameDto"]["slug"],
@@ -61,14 +60,7 @@ export default function RunsTable({gameSlug, category}: {
         </TableHeader>
         <TableBody>
             {runs.map((run) => (
-                <TableRow key={run.uuid}>
-                    <TableCell>{run.run.speedrunner}</TableCell>
-                    <TableCell>{runtimeToString(run.run.runtime)}</TableCell>
-                    <TableCell>{new Date(run.run.date).toLocaleDateString()}</TableCell>
-                    <TableCell>
-                        <VerifyButton run={run} />
-                    </TableCell>
-                </TableRow>
+                <RunsTableRow run={run} key={run.uuid}/>
             ))}
         </TableBody>
     </Table>)

@@ -11,12 +11,15 @@ export default async function VerifyRun(runUUID: components["schemas"]["RunRevie
     const token = new Cookies().get("accessToken");
     const client = createClient<paths>();
     console.log(runUUID);
-    return client.PATCH("/rest/api/reviews/verify", {
+    return client.PATCH("/rest/api/reviews/unreviewed/{uuid}", {
         headers: {
             Authorization: `Bearer ${token}`
         },
-        body: runUUID,
-        bodySerializer: (body) => body
+        params: {
+            path: {
+                uuid: runUUID,
+            }
+        }
     }).then(res => {
         if (!res.response.ok) {
             return {

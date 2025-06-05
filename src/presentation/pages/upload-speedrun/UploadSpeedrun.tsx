@@ -46,6 +46,7 @@ export default function UploadSpeedrun() {
         }),
         game: z.string().refine(game => games?.some(g => g.slug === game) ?? false, {}),
         category: z.string().refine(category => categories?.some(c => c.categoryId === category) ?? false, {}),
+        videoLink: z.string()
     })
 
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -59,7 +60,8 @@ export default function UploadSpeedrun() {
                 milliseconds: 0
             },
             game: searchParams.get("game") ?? undefined,
-            category: searchParams.get("category") ?? ""
+            category: searchParams.get("category") ?? "",
+            videoLink: "",
         },
     });
 
@@ -114,8 +116,9 @@ export default function UploadSpeedrun() {
             data.category,
             {
                 date: data.date.toISOString(),
-                runtime: data.runtime
-            }
+                runtime: data.runtime,
+                videoLink: data.videoLink,
+            },
         ).then(res => {
             if (res.success) {
                 toast.success("Speedrun erfolgreich eingereicht.");
@@ -130,7 +133,7 @@ export default function UploadSpeedrun() {
         <div className={cn("relative", searchParams.has("returnUrl") && "pt-16 sm:pt-0")}>
             <div className={cn("absolute left-0 top-0", !searchParams.has("returnUrl") && "hidden")}>
                 <Link to={searchParams.get("returnUrl") ?? "/"}>
-                    <Button variant={"outline"} size={"icon"} className="cursor-pointer"><ChevronLeft /></Button>
+                    <Button variant={"outline"} size={"icon"} className="cursor-pointer"><ChevronLeft/></Button>
                 </Link>
             </div>
             <Card className={"max-w-[400px] mx-auto"}>

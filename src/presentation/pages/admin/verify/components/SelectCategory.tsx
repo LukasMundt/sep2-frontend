@@ -11,13 +11,17 @@ import {
 } from "@/presentation/components/ui/select.tsx";
 import GetCategoriesFromGame from "@/business-rules/get-categories-from-game.ts";
 
-export default function SelectCategory({gameSlug, onCategorySelected}:{readonly gameSlug?: string, onCategorySelected: (categoryId: string) => void}){
+export default function SelectCategory({gameSlug, onCategorySelected, category}: {
+    readonly gameSlug?: string,
+    readonly onCategorySelected: (categoryId: string) => void,
+    readonly category?: string
+}) {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<boolean|undefined>(false);
-    const [categories, setCategories] = useState<undefined|components["schemas"]["Category"][]>(undefined);
+    const [error, setError] = useState<boolean | undefined>(false);
+    const [categories, setCategories] = useState<undefined | components["schemas"]["Category"][]>(undefined);
 
     useEffect(() => {
-        if(!loading && !error && categories === undefined && gameSlug != undefined){
+        if (!loading && !error && categories === undefined && gameSlug != undefined) {
             setLoading(true);
             GetCategoriesFromGame(gameSlug).then(({data, error}) => {
                 setCategories(data)
@@ -37,11 +41,11 @@ export default function SelectCategory({gameSlug, onCategorySelected}:{readonly 
         console.log(gameSlug);
     }, [gameSlug])
 
-    if(error || loading || gameSlug == undefined){
+    if (error || loading || gameSlug == undefined) {
         return <Skeleton className="h-9"/>
     }
 
-    return <Select onValueChange={onCategorySelected}>
+    return <Select onValueChange={onCategorySelected} value={category}>
         <SelectTrigger className="w-full">
             <SelectValue placeholder="Wähle eine Kategorie"/>
         </SelectTrigger>
