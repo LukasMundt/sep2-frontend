@@ -11,13 +11,16 @@ import {
     SelectValue
 } from "@/presentation/components/ui/select.tsx";
 
-export default function SelectGame({onGameSelected}:{onGameSelected: (gameSlug: string) => void}){
+export default function SelectGame({onGameSelected, gameSlug}: {
+    readonly onGameSelected: (gameSlug: string) => void,
+    readonly gameSlug?: string
+}) {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<boolean|undefined>(false);
-    const [games, setGames] = useState<undefined|components["schemas"]["GameDto"][]>(undefined);
+    const [error, setError] = useState<boolean | undefined>(false);
+    const [games, setGames] = useState<undefined | components["schemas"]["GameDto"][]>(undefined);
 
     useEffect(() => {
-        if(!loading && !error && games === undefined){
+        if (!loading && !error && games === undefined) {
             setLoading(true);
             GetGames().then(({data, error}) => {
                 setGames(data)
@@ -30,11 +33,11 @@ export default function SelectGame({onGameSelected}:{onGameSelected: (gameSlug: 
         }
     }, [])
 
-    if(error || loading){
+    if (error || loading) {
         return <Skeleton className="h-9"/>
     }
 
-    return <Select onValueChange={onGameSelected}>
+    return <Select onValueChange={onGameSelected} value={gameSlug}>
         <SelectTrigger className="w-full">
             <SelectValue placeholder="Wähle ein Spiel"/>
         </SelectTrigger>
