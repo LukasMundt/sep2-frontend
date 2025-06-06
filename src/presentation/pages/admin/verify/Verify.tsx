@@ -13,6 +13,7 @@ export default function Verify() {
         <div className="grid sm:grid-cols-2 gap-2 mb-3">
             <SelectGame gameSlug={game} onGameSelected={(game) => {
                 setGame(game)
+                setCategory(undefined)
                 setSearchParams((prev) => {
                     prev.set("game", game);
                     return prev;

@@ -28,7 +28,7 @@ export default function DeleteRunButton({run, disabled, onDelete}: Readonly<{
     }
 
     return (
-        <Button disabled={disabled} onClick={() => handleDelete(run.uuid)}>
+        <Button disabled={disabled} onClick={() => handleDelete(run.uuid)} className="cursor-pointer">
             <Trash/> {!isMobile && "Löschen"}
         </Button>
     )
