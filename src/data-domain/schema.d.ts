@@ -91,7 +91,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/api/games/{gameSlug}/{categoryId}/leaderboard": {
+    "/rest/api/games/{gameSlug}/{categoryId}/runs": {
         parameters: {
             query?: never;
             header?: never;
@@ -134,22 +134,6 @@ export interface paths {
                 };
             };
         };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/rest/api/games/{gameSlug}/{categoryId}/submit": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
         put?: never;
         /**
          * Submit a new run by game and category.
@@ -216,7 +200,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/rest/api/games/{uuid}": {
+    "/rest/api/runs/{uuid}": {
         parameters: {
             query?: never;
             header?: never;
@@ -810,6 +794,7 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         RunDto: {
+            uuid: string;
             /** @description Username of the speedrunner's account. */
             speedrunner: string;
             /** Format: date-time */
@@ -827,7 +812,6 @@ export interface components {
         RunReview: {
             gameName: string;
             categoryLabel: string;
-            uuid: string;
             run: components["schemas"]["RunDto"];
         };
         RunSubmit: {
