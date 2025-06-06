@@ -33,6 +33,10 @@ export default function Login() {
             if (res.success) {
                 toast.success("Erfolgreich angemeldet");
                 navigate(searchParams.get("returnUrl") ??"/");
+                const reloadTimeout = setTimeout(() => {
+                    window.location.reload();
+                    clearTimeout(reloadTimeout);
+                }, 350);
             } else if(res.statusCode == 401)
             {
                 toast.error(res.errorMessage);
