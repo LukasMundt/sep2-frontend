@@ -60,7 +60,7 @@ export default function RunsTable({gameSlug, category}: {
         </TableHeader>
         <TableBody>
             {runs.map((run) => (
-                <RunsTableRow run={run} key={run.uuid}/>
+                <RunsTableRow run={run} key={run.run.uuid}/>
             ))}
         </TableBody>
     </Table>)

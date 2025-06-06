@@ -9,7 +9,10 @@ export default function LogoutButton() {
         LogoutUser().then(({errorMessage, success}) => {
             if(success) {
                 toast.success("Abgemeldet.")
-                window.location.reload()
+                const reloadTimeout = setTimeout(() => {
+                    window.location.reload();
+                    clearTimeout(reloadTimeout);
+                }, 350);
             } else {
                 toast.error(errorMessage)
             }
