@@ -7,7 +7,7 @@ interface VerifyRunResult {
     errorMessage?: string
 }
 
-export default async function VerifyRun(runUUID: components["schemas"]["RunReview"]["uuid"]): Promise<VerifyRunResult> {
+export default async function VerifyRun(runUUID: components["schemas"]["RunReview"]["run"]["uuid"]): Promise<VerifyRunResult> {
     const token = new Cookies().get("accessToken");
     const client = createClient<paths>();
     console.log(runUUID);

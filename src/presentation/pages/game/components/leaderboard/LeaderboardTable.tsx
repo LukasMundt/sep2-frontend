@@ -1,8 +1,10 @@
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/presentation/components/ui/table.tsx";
 import {components} from "@/data-domain/schema";
 import {runtimeToString} from "@/business-rules/runtime-to-string.ts";
+import {useIsAdmin} from "@/presentation/hooks/is-admin.ts";
 
-export default function LeaderboardTable({runs}: { runs: components["schemas"]["RunDto"][] }) {
+export default function LeaderboardTable({runs}: { readonly runs: components["schemas"]["RunDto"][] }) {
+    const isAdmin = useIsAdmin();
 
     return (
         <Table>
@@ -21,6 +23,7 @@ export default function LeaderboardTable({runs}: { runs: components["schemas"]["
                         <TableCell>{run.speedrunner}</TableCell>
                         <TableCell>{runtimeToString(run.runtime)}</TableCell>
                         <TableCell>{new Date(run.date).toLocaleDateString()}</TableCell>
+                        {isAdmin&&<TableCell></TableCell>}
                     </TableRow>
                 ))}
             </TableBody>

@@ -12,9 +12,9 @@ import GetCategoriesFromGame from "@/business-rules/get-categories-from-game.ts"
 import {Skeleton} from "@/presentation/components/ui/skeleton.tsx";
 
 export default function CategorySelection({onSelection, gameSlug, category}: {
-    onSelection: (category: components["schemas"]["Category"]["categoryId"]) => void,
-    gameSlug?: components["schemas"]["GameDto"]["slug"],
-    category?: components["schemas"]["Category"]["categoryId"]
+    readonly onSelection: (category: components["schemas"]["Category"]["categoryId"]) => void,
+    readonly gameSlug?: components["schemas"]["GameDto"]["slug"],
+    readonly category?: components["schemas"]["Category"]["categoryId"]
 }) {
     const [categories, setCategories] = useState<components["schemas"]["Category"][]|undefined>(undefined);
     const [loading, setLoading] = useState<boolean>(false);

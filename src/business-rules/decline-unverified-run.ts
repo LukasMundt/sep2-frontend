@@ -3,7 +3,7 @@ import createClient from "openapi-fetch";
 
 
 export default async function DeclineUnverifiedRun(
-    uuid: components["schemas"]["RunReview"]["uuid"]
+    uuid: components["schemas"]["RunReview"]["run"]["uuid"]
 ): Promise<{ success: boolean, errorMessage?: string }> {
     const client = createClient<paths>();
     return client.DELETE(
