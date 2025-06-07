@@ -12,7 +12,7 @@ export default function DeclineButton({run, onDecline, disabled}: {
 }) {
     const isMobile = useIsMobile();
 
-    function handleDecline(uuid: components["schemas"]["RunReview"]["uuid"]) {
+    function handleDecline(uuid: components["schemas"]["RunReview"]["run"]["uuid"]) {
         DeclineUnverifiedRun(uuid).then(({success, errorMessage}) => {
             if (success) {
                 toast.success("Run abgelehnt")
@@ -25,7 +25,7 @@ export default function DeclineButton({run, onDecline, disabled}: {
         })
     }
 
-    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleDecline(run.uuid)} disabled={disabled} className="cursor-pointer">
+    return <Button size={isMobile ? "icon" : "default"} onClick={() => handleDecline(run.run.uuid)} disabled={disabled} className="cursor-pointer">
         <X/>
         <span className={isMobile ? "hidden" : ""}>Ablehnen</span>
     </Button>
