@@ -61,7 +61,7 @@ export default function UploadSpeedrun() {
             },
             game: searchParams.get("game") ?? undefined,
             category: searchParams.get("category") ?? "",
-            videoLink: "",
+            videoLink: "-",
         },
     });
 
