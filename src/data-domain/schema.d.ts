@@ -721,7 +721,7 @@ export interface paths {
                         [name: string]: unknown;
                     };
                     content: {
-                        "application/json": string;
+                        "application/json": components["schemas"]["RssFeedUrl"];
                     };
                 };
                 /** @description Returned if the caller is not authenticated. */
@@ -857,6 +857,10 @@ export interface components {
             email: string;
             /** Format: password */
             password: string;
+        };
+        RssFeedUrl: {
+            /** @example https://speedrun.lukas-mundt.de/rest/rss */
+            url: string;
         };
     };
     responses: never;
