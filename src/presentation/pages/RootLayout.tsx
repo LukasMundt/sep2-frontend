@@ -5,6 +5,7 @@ import {Toaster} from "sonner";
 import {isAuthenticatedSimple} from "@/presentation/lib/utils.ts";
 import LogoutButton from "@/presentation/components/auth/LogoutButton.tsx";
 import {useIsAdmin} from "@/presentation/hooks/is-admin.ts";
+import RssDialog from "@/presentation/components/RssDialog.tsx";
 
 export default function RootLayout() {
     const location = useLocation();
@@ -45,10 +46,13 @@ export default function RootLayout() {
                         </Link>}
                 </div>
             </nav>
-            <main className="mt-[13px] px-[21px] md:px-[55px] xl:px-[89px] 2xl:px-[144px]">
+            <main className="mt-[13px] px-[21px] md:px-[55px] xl:px-[89px] 2xl:px-[144px] min-h-96">
                 <Toaster/>
                 <Outlet/>
             </main>
+            <footer className="px-[21px] md:px-[55px] xl:px-[89px] 2xl:px-[144px] py-[21px] flex justify-center">
+                <RssDialog />
+            </footer>
         </>
     )
 }
