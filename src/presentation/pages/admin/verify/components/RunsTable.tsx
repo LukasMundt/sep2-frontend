@@ -55,6 +55,7 @@ export default function RunsTable({gameSlug, category}: {
                 <TableHead className="font-semibold">Spieler</TableHead>
                 <TableHead className="font-semibold">Zeit</TableHead>
                 <TableHead>Datum</TableHead>
+                <TableHead>Video</TableHead>
                 <TableHead></TableHead>
             </TableRow>
         </TableHeader>
