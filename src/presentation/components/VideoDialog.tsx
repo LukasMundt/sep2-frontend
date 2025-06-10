@@ -50,7 +50,7 @@ function Video({videoLink}: { videoLink: string }) {
 
     else if (link.startsWith("https")) {
         return <Link to={link} target="_blank" rel="noopener noreferrer" className="w-full aspect-video">
-            <div className={"flex items-center justify-center bg-secondary rounded-md"}>
+            <div className={"aspect-video w-full flex items-center justify-center bg-secondary rounded-md"}>
                 <Play/>
             </div>
         </Link>
