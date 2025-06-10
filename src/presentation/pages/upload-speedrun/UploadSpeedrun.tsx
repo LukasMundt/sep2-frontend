@@ -18,6 +18,7 @@ import FormFieldRuntime from "@/presentation/pages/upload-speedrun/components/Fo
 import {cn} from "@/presentation/lib/utils.ts";
 import {ChevronLeft} from "lucide-react";
 import submitRun from "@/business-rules/submit-run.ts";
+import FormFieldVideoLink from "@/presentation/pages/upload-speedrun/components/FormFieldVideoLink.tsx";
 
 export default function UploadSpeedrun() {
     const [searchParams] = useSearchParams();
@@ -46,7 +47,7 @@ export default function UploadSpeedrun() {
         }),
         game: z.string().refine(game => games?.some(g => g.slug === game) ?? false, {}),
         category: z.string().refine(category => categories?.some(c => c.categoryId === category) ?? false, {}),
-        videoLink: z.string()
+        videoLink: z.string().url()
     })
 
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -61,7 +62,7 @@ export default function UploadSpeedrun() {
             },
             game: searchParams.get("game") ?? undefined,
             category: searchParams.get("category") ?? "",
-            videoLink: "-",
+            videoLink: "",
         },
     });
 
@@ -151,6 +152,7 @@ export default function UploadSpeedrun() {
                             <FormFieldDate form={form} watchedCategory={watchedCategory} watchedGame={watchedGame}/>
                             <FormFieldRuntime form={form} watchedDate={watchedDate} watchedCategory={watchedCategory}
                                               watchedGame={watchedGame}/>
+                            <FormFieldVideoLink form={form}/>
                             <Button type="submit" className="w-full cursor-pointer"
                                     disabled={!(watchedCategory && watchedGame && watchedDate && watchedRuntime)}>Absenden</Button>
                         </form>
