@@ -5,6 +5,7 @@ import VerifyButton from "@/presentation/pages/admin/verify/components/VerifyBut
 import {useState} from "react";
 import DeclineButton from "@/presentation/pages/admin/verify/components/DeclineButton.tsx";
 import {cn} from "@/presentation/lib/utils.ts";
+import VideoDialog from "@/presentation/components/VideoDialog";
 
 export default function RunsTableRow({run}: { readonly run: components["schemas"]["RunReview"] }) {
     const [disabled, setDisabled] = useState<boolean>(false);
@@ -14,6 +15,7 @@ export default function RunsTableRow({run}: { readonly run: components["schemas"
             <TableCell>{run.run.speedrunner}</TableCell>
             <TableCell>{runtimeToString(run.run.runtime)}</TableCell>
             <TableCell>{new Date(run.run.date).toLocaleDateString()}</TableCell>
+            <TableCell><VideoDialog videoLink={run.run.videoLink}/></TableCell>
             <TableCell className="flex gap-2">
                 <VerifyButton run={run} disabled={disabled} onVerify={setDisabled}/>
                 <DeclineButton run={run} onDecline={setDisabled} disabled={disabled}/>

@@ -8,6 +8,7 @@ export default function LeaderboardTable({runs}: { readonly runs: components["sc
             <TableHeader>
                 <TableRow>
                     <TableHead className="w-[21px] font-semibold">#</TableHead>
+                    <TableHead className="w-[21px] font-semibold">Video</TableHead>
                     <TableHead className="font-semibold">Spieler</TableHead>
                     <TableHead className="font-semibold">Zeit</TableHead>
                     <TableHead>Datum</TableHead>
